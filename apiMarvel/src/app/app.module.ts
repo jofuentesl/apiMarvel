@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule, Routes} from '@angular/router';
-
+import { RouterModule, RouterLink } from '@angular/router';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-
-/* importamos modulos propios */
 import { AuthModule } from './auth/auth.module';
-import { PagesModule } from './pages/pages.module';
 import { SharedModule } from './shared/shared.module';
+import { PagesModule } from './pages/pages.module';
+
+
 
 
 
@@ -17,19 +16,22 @@ import { SharedModule } from './shared/shared.module';
 @NgModule({
   declarations: [
     AppComponent,
-    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    RouterLink,
     AuthModule,
     SharedModule,
-    PagesModule,
+    PagesModule
   ],
   exports: [
     RouterModule,
-    SharedModule
+    AppRoutingModule,
+    RouterLink,
+    SharedModule,
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

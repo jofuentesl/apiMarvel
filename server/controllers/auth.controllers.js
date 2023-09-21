@@ -45,8 +45,6 @@ const loginUsers = async ( req, res = response ) => {
         
     }
 
-
-
 }
 
 module.exports = loginUsers 

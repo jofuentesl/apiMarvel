@@ -12,7 +12,8 @@ const getUsuarios = async (req, res) => {
         ok: true,
         usuarios: [{
             id: 123,
-            usuario
+            usuario,
+            uid: req.uid
         }]
     })
 

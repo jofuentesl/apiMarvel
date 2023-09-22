@@ -8,100 +8,117 @@
           <form 
             autocomplete="off"
             [formGroup]= "registerForm"
-            (ngSubmit)="crearUsuario()"
+            (ngSubmit)="createUser()"
             
             >
+            <legend>Register form</legend>
             <div class="form-outline mb-4">
-              <label class="form-label" for="form3Example3">Name</label>
+              <label class="form-label" for="name">Name</label>
               <input  type="text"
+                      id="name"
                       class="form-control form-control-lg"
                       placeholder="Enter your name" 
                       formControlName="nombre"/>
+                      <div 
+                        class="text-danger" 
+                        *ngIf="registerForm.get('nombre')?.invalid && registerForm.get('nombre')?.touched">
+
+                        <div *ngIf="registerForm.get('nombre')?.hasError('required')"> El nombre es obligatorio</div>
+                        <div *ngIf="registerForm.get('nombre')?.hasError('minLength')"> El nombre es demasiado corto</div>
+                      </div>
             </div>
             <!-- Email input -->
             <div class="form-outline mb-4">
-              <label class="form-label" for="form3Example3">Email address</label>
+              <label class="form-label" for="email">Email address</label>
               <input  type="email" 
+                      id="email"
                       class="form-control form-control-lg"
                       placeholder="Enter a valid email address" 
                       formControlName="email"
                       />
+                      <div 
+                        class="text-danger" 
+                        *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+
+                        <div *ngIf="registerForm.get('email')?.hasError('required')"> El email es obligatorio</div>
+                        <div *ngIf="registerForm.get('email')?.hasError('email')"> El formato del email no es correcto</div>
+                      </div>
             </div>
   
             <!-- Password input -->
             <div class="form-outline mb-3">
-              <label class="form-label" for="form3Example4">Password</label>
+              <label class="form-label" for="password">Password</label>
               <input  type="password" 
+                      id="password"
                       class="form-control form-control-lg"
                       placeholder="Enter password" 
                       formControlName="password"
                       />
+                      <div 
+                      class="text-danger" 
+                      *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+
+                      <div *ngIf="registerForm.get('password')?.hasError('required')">El password es obligatorio</div>
+                      <div *ngIf="registerForm.get('password')?.hasError('minLength(6)')"> El formato del email no es correcto</div>
+                      <div *ngIf="registerForm.get('password')?.hasError('passwordCoincide')"> El email es obligatorio2</div>
+                    </div>
             </div>
             <div class="form-outline mb-3">
-              <label class="form-label" for="form3Example5"> Repeat Password</label>
+              <label class="form-label" for="password2"> Repeat Password</label>
               <input  type="password" 
+                      id="password2"  
                       class="form-control form-control-lg"
                       placeholder="Repeat password" 
                       formControlName="password2"
                       />
+                      <div 
+                      class="text-danger" 
+                      *ngIf="registerForm.get('password2')?.invalid && registerForm.get('password2')?.touched">
+                      <div *ngIf="registerForm.get('password2')?.hasError('required')"> La confirmación del password es obligatoria</div>
+                      <div *ngIf="registerForm.get('password2')?.hasError('passwordCoincide')"> Las contraseñas no coinciden </div>
+                      <div *ngIf="registerForm.get('password2')?.hasError('passwordCoincide')"> Las contraseñas no coinciden </div>
+                    </div>
             </div>
             <div class="form-outline mb-3">
-              <input  type="checkbox" 
+              <input  type="checkbox"
+                      id="terms" 
                       class="checkbox checkbox-primary" 
                       formControlName="terminos"
                       />
-              <label class="form-label labelTerms" for="form3Example5"> I accept the terms and conditions  </label>
-              
+              <label class="form-label labelTerms" for="terms"> I accept the terms and conditions  </label>
+              <div 
+                      class="text-danger" 
+                      *ngIf="registerForm.get('terminos')?.invalid && registerForm.get('terminos')?.touched">
+
+                      <div *ngIf="registerForm.get('password')?.hasError('required')"> Tienes que aceptar los terminos</div>
+                      
+                    </div>
             </div>
             <div class="row">
               <div class="col text-danger">
-
-                <p *ngIf="campoNoValido('nombre')">El nombre es obligatorio</p>
-                <p *ngIf="campoNoValido('email')">El email es obligatorio y tiene que ser valido</p>
-                <p *ngIf="passwordNoValido()">Las contraseñas deben de ser iguales</p>
-                <p *ngIf="aceptaTerminos()">Tienes que aceptar los terminos</p>
-
-
               </div>
             </div>
             <div class="form-outline mb-3">
             
               <p class="small fw-bold mt-2 pt-1 mb-0">You already have an account, <a  class="link-danger registerLink" routerLink="/login">click here</a></p>  
             </div>
-              
+            <pre>{{registerForm.errors | json}}</pre>
             <div class="text-center text-lg-start mt-4 pt-2">
-              <button type="submit" class="btn btn-primary btn-lg"
-                style="padding-left: 2.5rem; padding-right: 2.5rem;">Register</button>
+              <button 
+                type="submit" 
+                class="btn btn-primary btn-lg"
+                style="padding-left: 2rem; padding-right: 2rem;"
+                
+                >
+                <i class="bi bi-send"></i>
+                Register
+              </button>
             </div>
   
           </form>
         </div>
       </div>
     </div>
-    <div
-      class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 text-bg-dark fixed-bottom">
-      <!-- Copyright -->
-      <div class="text-white mb-3 mb-md-0">
-        Copyright © 2020. All rights reserved.
-      </div>
-      <!-- Copyright -->
-  
-      <!-- Right -->
-      <div>
-        <a href="#!" class="text-white me-4">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-        <a href="#!" class="text-white me-4">
-          <i class="fab fa-twitter"></i>
-        </a>
-        <a href="#!" class="text-white me-4">
-          <i class="fab fa-google"></i>
-        </a>
-        <a href="#!" class="text-white">
-          <i class="fab fa-linkedin-in"></i>
-        </a>
-      </div>
-      <!-- Right -->
-    </div>
+   
   </section>
 

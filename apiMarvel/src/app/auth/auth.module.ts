@@ -9,11 +9,14 @@ import { RegisterComponent } from './register/register.component';
 
 
 
+
+
+
 @NgModule({
   declarations: [
     LoginComponent,
-    RegisterComponent
-    
+    RegisterComponent,
+  
   ],
   imports: [
     CommonModule,

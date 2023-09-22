@@ -1,42 +1,86 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
 
-  public formSubmitted = false;
+
+  registerForm: FormGroup;
+
+
+  constructor() {}
+
+  //Verificamos que coincidan las contraseñas
+  checkPasswords: ValidatorFn = (
+    control: AbstractControl
+  ): ValidationErrors | null => {
+    const password = control.get("password");
+    const password2= control.get("password2");
+
+    return password &&
+      password2 &&
+      password.value !== password2.value
+      ? { passwordCoincide: false }
+      : null;
+  };
+
+  ngOnInit(): void { 
+    this.registerForm = new FormGroup({
+      nombre: new FormControl('jordi', [ Validators.required ] ),
+      email: new FormControl('jordi@gmail.com', [ Validators.required, Validators.email] ),
+      password: new FormControl( '123456', [ Validators.required, Validators.minLength(6)] ),
+      password2: new FormControl( '123457', [ Validators.required, Validators.minLength(6)]),
+      terminos: new FormControl( false, Validators.required )
+    },
+  
+    { validators:  [this.checkPasswords] }
+    )
+
+  }
+
+
+  createUser() {
+    console.log(this.registerForm.value);
+
+  }
+
+  verificarContraseñas () {
+
+
+  }
+  /*public formSubmitted = false;
 
   //Reactive form
-  public registerForm = this.fb.group({
+  public registerForm = this.fb.group<any>({
 
-    nombre:['', [ Validators.required, Validators.minLength(3) ] ],
-    email: ['', [ Validators.required, Validators.email] ],
-    password: [ '', [ Validators.required, Validators.minLength(6)] ],
-    password2: [ '', [ Validators.required, Validators.minLength(6)] ],
+    nombre:['jordi', [ Validators.required, Validators.minLength(3) ] ],
+    email: ['jordi@gmail.com', [ Validators.required, Validators.email] ],
+    password: [ '123456', [ Validators.required, Validators.minLength(6)] ],
+    password2: [ '123457', [ Validators.required, Validators.minLength(6)] ],
     terminos: [ true, Validators.required ]
 
-  }, {
-    Validators: this.passwordsIguales('password', 'password2')
   });
   
+
   
   constructor( private fb: FormBuilder) {}
 
 
   //metodo para crear usuario
-  crearUsuario() {
+  createUser() {
     
     this.formSubmitted = true;
     console.log(this.registerForm.value);
 
     if( this.registerForm.valid ) {
-      console.log(' posteando formulario ')
+      console.log(' posteando formulario  ')
     } else {
-      console.log("no correcto")
+      console.log("correcto")
     }
 
   }
@@ -63,8 +107,10 @@ export class RegisterComponent {
 
   passwordNoValido():boolean {
 
-    const pass1 = this.registerForm.get('password')!.value;
-    const pass2 = this.registerForm.get('password2')!.value;
+    const pass1 = this.registerForm.get('password')?.value;
+    const pass2 = this.registerForm.get('password2')?.value;
+    console.log(pass1);
+    console.log(pass2);
 
     if ((pass1 !== pass2) && this.formSubmitted) {
         
@@ -95,5 +141,5 @@ export class RegisterComponent {
       }
     }
   }
-
+*/
 }

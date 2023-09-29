@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { ValidacionesPropias } from '../customValidators/validaciones-propias';
 
 
 @Component({
@@ -15,43 +16,50 @@ export class RegisterComponent implements OnInit {
 
   constructor() {}
 
-  //Verificamos que coincidan las contraseñas
+  /*Verificamos que coincidan las contraseñas
   checkPasswords: ValidatorFn = (
     control: AbstractControl
   ): ValidationErrors | null => {
     const password = control.get("password");
     const password2= control.get("password2");
 
-    return password &&
+    if (password?.value === password2?.value)
+    return null;
+      else
+    return { passwordCoincide: true }
+    /*return password &&
       password2 &&
       password.value !== password2.value
-      ? { passwordCoincide: false }
+      ? { passwordCoincide: true }
       : null;
-  };
+  };*/
 
   ngOnInit(): void { 
     this.registerForm = new FormGroup({
       nombre: new FormControl('jordi', [ Validators.required ] ),
       email: new FormControl('jordi@gmail.com', [ Validators.required, Validators.email] ),
       password: new FormControl( '123456', [ Validators.required, Validators.minLength(6)] ),
-      password2: new FormControl( '123457', [ Validators.required, Validators.minLength(6)]),
+      password2: new FormControl( '111111', [ Validators.required, Validators.minLength(6)]),
       terminos: new FormControl( false, Validators.required )
-    },
-  
-    { validators:  [this.checkPasswords] }
-    )
+    })
 
   }
 
 
   createUser() {
     console.log(this.registerForm.value);
-
+    console.log(this.mustBeEquals());
   }
 
-  verificarContraseñas () {
+  mustBeEquals() {
+    const pass1 = this.registerForm.get('password')?.value;
+    const pass2 = this.registerForm.get('password2')?.value;
 
-
+      if( pass1 === pass2 ) {
+        return true;
+      } else {
+        return false
+      }
   }
   /*public formSubmitted = false;
 
